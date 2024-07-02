@@ -17,18 +17,17 @@ RUNPOD_MODEL_ID = os.environ.get("RUNPOD_MODEL_ID")
 # endpoint = runpod.Endpoint(RUNPOD_MODEL_ID)
 
 
-def get_result(
-    user_image, clothes_image, mask_image_upload=None, body_part="upper_body"
-):
-
+def get_result(user_image, garment_data, params):
+    for k, v in garment_data.items():
+        print(v)
+        if not isinstance(v["image"], str):
+            v["image"] = pil_to_b64(v["image"])
     input = {
         "human_img_b64": pil_to_b64(user_image),
-        "garm_img_b64": pil_to_b64(clothes_image),
-        "mask_img": pil_to_b64(mask_image_upload) if mask_image_upload else None,
-        "body_part": body_part,
-        "is_checked_crop": True,
+        "garment_data": garment_data,
     }
-
+    input.update(params)
+    print(input.keys())
     start = time.time()
 
     # First way to call serverless api
