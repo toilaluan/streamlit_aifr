@@ -1,0 +1,3 @@
+runpod
+streamlit
+streamlit-image-select
